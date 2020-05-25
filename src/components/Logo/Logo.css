@@ -1,0 +1,11 @@
+.Tilt{
+	background: linear-gradient(89deg, #ff53df 0%, #04c8de 100%);
+	/*background-color: red;*/
+}
+
+.zndex{
+	/*z-index: 1; This can be changed because it will become spaghetti code.*/
+	position: relative;
+	float: left;
+	/*clear: both;*/
+}
