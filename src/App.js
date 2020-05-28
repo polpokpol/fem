@@ -5,6 +5,7 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognitionForm from './components/FaceRecognitionForm/FaceRecognitionForm';
+import SignIn from './components/SignIn/SignIn';
 import './App.css';
 import Clarifai from 'clarifai';
 
@@ -50,6 +51,7 @@ class App extends Component{
       input: '',
       imageUrl: '',
       box: {},
+      route: 'signin'
     }
   }
 
@@ -80,7 +82,7 @@ class App extends Component{
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input}); 
     app.models.predict(
-      Clarifai.FACE_DETECT_MODEL,
+      Clarifai.FACE_DETECT_MODEL, // https://github.com/Clarifai/clarifai-javascript/blob/master/src/index.js
       this.state.input) // common trap that is hard to debug. use input instead of ImageUrl. Read ./others/note.txt
     .then((response) => {
           console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
@@ -91,23 +93,31 @@ class App extends Component{
     
   }
 
+  onRouteChange = () =>{
+    this.setState({route: 'home'})
+  }
+
 
   render(){
     return(
     <div className="App"> 
-
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm 
-          onInputChange={this.onInputChange} 
-          onButtonSubmit={this.onButtonSubmit}
-        />
         <Particles className="particles"
-              params={particlesAppOptions}
-
+          params={particlesAppOptions}
         />
-        <FaceRecognitionForm box={this.state.box} imageUrl={this.state.imageUrl}/>
+        <Navigation />
+        { this.state.route == 'signin'
+          ?         <SignIn onRouteChange={this.onRouteChange}/>
+
+          :<div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm 
+              onInputChange={this.onInputChange} 
+              onButtonSubmit={this.onButtonSubmit}
+            />
+            <FaceRecognitionForm box={this.state.box} imageUrl={this.state.imageUrl}/>
+          </div>
+        }
     </div>
     );
   }
