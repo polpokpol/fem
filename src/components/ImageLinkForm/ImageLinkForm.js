@@ -4,7 +4,7 @@ import './ImageLinkForm.css';
 
 const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
 	return (
-		<div className>
+		<div>
 			<p> 
 				{'Insert picture here'}
 			</p>
