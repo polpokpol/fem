@@ -54,7 +54,24 @@ class App extends Component{
       box: {},
       route: 'signin', // the routes are: home, register, signout
       isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''     
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined       
+    }})
   }
 
 
@@ -95,7 +112,22 @@ class App extends Component{
       Clarifai.FACE_DETECT_MODEL, // https://github.com/Clarifai/clarifai-javascript/blob/master/src/index.js
       this.state.input) // common trap that is hard to debug. use input instead of ImageUrl. Read ./others/note.txt
     .then((response) => {
-          console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+          if(response){
+            fetch('http://localhost:3000/image', {
+              method: 'put',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                id: this.state.user.id
+              })
+            })
+              .then(response => response.json())
+              .then(count => {
+                this.setState({user: {
+                  entries: count
+                }})
+              })
+          }
+          // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
           this.displayFaceBox( this.calculateFaceLocation(response))
           .catch(e => console.log(e, 'error'))
       }
@@ -123,7 +155,7 @@ class App extends Component{
         { this.state.route === 'home'
           ? <div>
               <Logo />
-              <Rank />
+              <Rank name={this.state.user.name} entries={this.state.user.entries}/>
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}
@@ -132,8 +164,8 @@ class App extends Component{
             </div>       
           : ( 
             this.state.route === 'signin'
-            ?  <SignIn onRouteChange={this.onRouteChange}/>
-            :  <Register onRouteChange={this.onRouteChange}/>
+            ?  <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+            :  <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           )
 
 
