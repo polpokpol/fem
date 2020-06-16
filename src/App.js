@@ -122,9 +122,7 @@ class App extends Component{
             })
               .then(response => response.json())
               .then(count => {
-                this.setState({user: {
-                  entries: count
-                }})
+                this.setState(Object.assign(this.state.user, {entries: count})) //important in the future
               })
           }
           // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
