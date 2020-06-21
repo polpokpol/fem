@@ -72,6 +72,15 @@ class App extends Component{
         entries: data.entries,
         joined: data.joined       
     }})
+    // this.setState(Object.assign(this.state.user, {
+    //       id: data.id,
+    //     name: data.name,
+    //     email: data.email,
+    //     entries: data.entries,
+    //     joined: data.joined 
+    // }))
+    // console.log(this.state.user.name);
+    // this.setState(Object.assign(this.state.user, {entries: count}))
   }
 
 

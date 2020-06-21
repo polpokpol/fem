@@ -8,7 +8,7 @@ class Register extends React.Component{
 		super(props);
 		this.state = {
 			email: '',
-			password: '',
+			password: '', // maybe wrong number 1
 			name: ''
 		}
 	}
@@ -28,7 +28,7 @@ class Register extends React.Component{
 	onSubmitSignIn = () => {
 		fetch('http://localhost:3000/register', {
 			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+			headers: {'Content-Type': 'application/json'}, // maybe wrong number 2
 			body: JSON.stringify({
 				email: this.state.email,
 				password: this.state.password,
