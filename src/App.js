@@ -11,9 +11,7 @@ import './App.css';
 import Clarifai from 'clarifai';
 
 
-const app = new Clarifai.App({
- apiKey: '194e3b8ddd0f481db72d4bb2fe2dcbe2'
-});
+
 
 
 const particlesAppOptions = {
@@ -44,24 +42,26 @@ const particlesAppOptions = {
       // source: https://rpj.bembi.org/#simple and https://www.npmjs.com/package/react-particles-js
 }
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin', // the routes are: home, register, signout
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''     
+  }
+}
+
 class App extends Component{
 
   constructor(){
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signin', // the routes are: home, register, signout
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''     
-      }
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -117,9 +117,14 @@ class App extends Component{
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input}); 
-    app.models.predict(
-      Clarifai.FACE_DETECT_MODEL, // https://github.com/Clarifai/clarifai-javascript/blob/master/src/index.js
-      this.state.input) // common trap that is hard to debug. use input instead of ImageUrl. Read ./others/note.txt
+    fetch('http://localhost:3000/imageurl', {
+              method: 'post',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                id: this.state.user.id
+              })
+    })
+    .then(response => response.json())
     .then((response) => {
           if(response){
             fetch('http://localhost:3000/image', {
@@ -133,6 +138,7 @@ class App extends Component{
               .then(count => {
                 this.setState(Object.assign(this.state.user, {entries: count})) //important in the future
               })
+              .catch(console.log)
           }
           // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
           this.displayFaceBox( this.calculateFaceLocation(response))
@@ -144,7 +150,7 @@ class App extends Component{
 
   onRouteChange = (route) =>{
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if(route === 'home') {
       this.setState({isSignedIn: true})
     }
