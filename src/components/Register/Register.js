@@ -37,7 +37,9 @@ class Register extends React.Component{
 		})
 		.then(response => response.json())
 		.then(user => {
-			if(user.id){
+			if(user.id){ // if user only not user.id it will show undefined and of course not registered 
+				// to the database(check register.js in the backend). So it will create the user's id first
+				// then it will check the user id if it exists
 				this.props.loadUser(user)
 				this.props.onRouteChange('home');
 			}

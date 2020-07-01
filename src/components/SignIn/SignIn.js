@@ -35,7 +35,7 @@ class SignIn extends React.Component {
 		// 	}
 		// })
 		.then(user => {
-			if(user.id){ // so basically it tells if the user's id exists then it is true
+			if(user.id){ // so basically it tells if the user's id exists then it is true(check Register.js)
 				this.props.loadUser(user);
 				this.props.onRouteChange('home');
 			}
