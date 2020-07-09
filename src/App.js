@@ -34,7 +34,7 @@ const particlesAppOptions = {
           "events": {
               "onhover": {
                   "enable": true,
-                  // "mode": "repulse"
+                  "mode": "repulse"
                   // uncomment to see.
               }
           }
@@ -117,17 +117,18 @@ class App extends Component{
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});  // 11:00
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://alluring-mesa-verde-04171.herokuapp.com/imageurl', {
               method: 'post',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
-                id: this.state.user.id
+                input: this.state.input
               })
     })
     .then(response => response.json())
     .then((response) => {
           if(response){
-            fetch('http://localhost:3000/image', {
+            // fetch('https://alluring-mesa-verde-04171.herokuapp.com:3000/image', {
+            fetch('https://alluring-mesa-verde-04171.herokuapp.com:/image', {
               method: 'put',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
@@ -142,7 +143,7 @@ class App extends Component{
           }
           // console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
           this.displayFaceBox( this.calculateFaceLocation(response))
-          .catch(e => console.log(e, 'error'))
+          // .catch(e => console.log(e, 'error'))
       }
     );
     
