@@ -8,7 +8,6 @@ import FaceRecognitionForm from './components/FaceRecognitionForm/FaceRecognitio
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import './App.css';
-import Clarifai from 'clarifai';
 
 
 
@@ -128,7 +127,7 @@ class App extends Component{
     .then((response) => {
           if(response){
             // fetch('https://alluring-mesa-verde-04171.herokuapp.com:3000/image', {
-            fetch('https://alluring-mesa-verde-04171.herokuapp.com:/image', {
+            fetch('https://alluring-mesa-verde-04171.herokuapp.com/image', {
               method: 'put',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({
