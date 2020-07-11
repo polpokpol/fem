@@ -16,15 +16,9 @@
     "tachyons": "^4.12.0"
   },
   "scripts": {
-<<<<<<< HEAD
-<<<<<<< HEAD
     "start": "react-scripts start",
-=======
     "start": "set PORT=3001 && react-scripts start",
->>>>>>> parent of 1794fe7... returned to base plus adding PORT=9000 in package.json line 18
-=======
     "start": "process.env.PORT react-scripts start",
->>>>>>> parent of 1e4f1ae... returned to base
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
